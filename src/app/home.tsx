@@ -49,8 +49,12 @@ const courses = [
 export default function HomeScreen() {
   const [activeCategory, setActiveCategory] = useState('Popular');
 
-  function handleLogout() {
+  function handleLogout(){
     router.replace('/');
+  }
+
+  function handleCoursePress(){
+    router.replace(`/course`);
   }
 
   const visibleCourses =
@@ -161,7 +165,10 @@ export default function HomeScreen() {
                   <View className="h-full w-[65%] rounded-full bg-[#396660]" />
                 </View>
               </View>
-              <Pressable className="mt-3 h-10 flex-row items-center justify-center rounded-lg bg-[#1c1c1a]">
+              <Pressable 
+                onPress={handleCoursePress}
+                className="mt-3 h-10 flex-row items-center justify-center rounded-lg bg-[#1c1c1a]"
+              >
                 <Text className="text-xs font-bold text-white">Resume Assessment  →</Text>
               </Pressable>
             </View>
@@ -190,8 +197,8 @@ export default function HomeScreen() {
                   <View className="h-full w-[40%] rounded-full bg-[#396660]" />
                 </View>
               </View>
-              <Pressable className="mt-3 h-10 flex-row items-center justify-center rounded-lg bg-[#ece8e0]">
-                <Text className="text-xs font-bold text-[#1c1c17]">Resume Assessment  →</Text>
+              <Pressable className="mt-3 h-10 flex-row items-center justify-center rounded-lg bg-[#1c1c1a]">
+                <Text className="text-xs font-bold text-white">Resume Assessment  →</Text>
               </Pressable>
             </View>
           </ScrollView>
