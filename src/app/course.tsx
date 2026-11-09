@@ -176,6 +176,46 @@ export default function CourseScreen() {
           ))}
         </View>
 
+        {/* Course Rating */}
+        <View className="mb-8">
+          <View className="mb-3.5 flex-row items-center justify-between">
+            <Text className="text-base font-bold text-[#1c1c17]">
+              Course Rating
+            </Text>
+            <Text className="text-xs text-[#706e68]">
+              Verified Evaluators
+            </Text>
+          </View>
+
+          <View className="p-4 rounded-2xl bg-white border border-[#eeeae2] shadow-sm">
+            <View className="flex-row items-center justify-between">
+              <View>
+                <View className="flex-row items-baseline gap-1.5">
+                  <Text className="text-3xl font-bold text-[#1c1c17]">4.9</Text>
+                  <Text className="text-xs text-[#706e68]">/ 5.0</Text>
+                </View>
+                <Text className="text-sm text-[#D97706] mt-1 tracking-widest">
+                  ★★★★★
+                </Text>
+                <Text className="text-xs text-[#706e68] mt-1">
+                  1,240 verified ratings
+                </Text>
+              </View>
+
+              <View className="items-end">
+                <View className="px-2.5 py-1 rounded-full bg-[#f7f3eb]">
+                  <Text className="text-[11px] font-semibold text-[#396660]">
+                    ✓ 98% Positive
+                  </Text>
+                </View>
+                <Text className="text-[11px] text-[#706e68] mt-1">
+                  Top Rated
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+
         <Text className="mt-auto pt-10 text-center text-[12px] text-slate">
           A little progress, when in mood.
         </Text>
