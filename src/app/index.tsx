@@ -130,6 +130,17 @@ export default function App() {
               →
             </Text>
           </Pressable>
+
+          {/* Register Button */}
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => router.push('/register')}
+            className="mt-3 min-h-[56px] flex-row items-center justify-center rounded-xl border border-outline-variant bg-surface-container-lowest active:bg-surface-container-low"
+          >
+            <Text className="text-[15px] font-bold text-on-surface">
+              Register account
+            </Text>
+          </Pressable>
         </View>
 
         {/* Footer */}
