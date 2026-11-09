@@ -1,43 +1,38 @@
-import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, Pressable, ScrollView, Share, Platform, Image } from 'react-native';
+import { View, Text, Pressable, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 
-export default function CourseScreen() {
-  const [isSaved, setIsSaved] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
+const syllabusModules = [
+  {
+    id: '01',
+    title: 'Syllabus Module 1',
+    tag: 'Free Preview',
+    subtitle: '4 lessons · 0 min total',
+    lessons: [
+      { id: '1.1', title: '1.1', duration: '00:00' },
+      { id: '1.2', title: '1.2', duration: '00:00' },
+      { id: '1.3', title: '1.3', duration: '00:00' },
+      { id: '1.4', title: '1.4', duration: '00:00' },
+    ],
+  },
+  {
+    id: '02',
+    title: 'Syllabus Module 2',
+    subtitle: '2 lessons · 0 min total',
+    lessons: [
+      { id: '2.1', title: '2.1', duration: '00:00' },
+      { id: '2.2', title: '2.2', duration: '00:00' },
+    ],
+  },
+];
 
+export default function CourseScreen() {
   function handleLogout() {
     router.replace('/');
   }
+
   function handleBack() {
     router.replace('/home');
-  }
-
-  function handleSave() {
-    setIsSaved((prev) => !prev);
-  }
-
-  function handlePlayVideo() {
-    setIsPlaying((prev) => !prev);
-  }
-
-  async function handleShare() {
-    try {
-      if (Platform.OS === 'web' && typeof navigator !== 'undefined' && !navigator.share) {
-        if (navigator.clipboard) {
-          await navigator.clipboard.writeText('Check out Mastering Product Design Systems on Skill Check!');
-          alert('Link copied to clipboard!');
-          return;
-        }
-      }
-      await Share.share({
-        message: 'Check out Mastering Product Design Systems on Skill Check!',
-        title: 'Mastering Product Design Systems',
-      });
-    } catch (error) {
-      console.log('Error sharing:', error);
-    }
   }
 
   return (
@@ -79,6 +74,7 @@ export default function CourseScreen() {
           paddingBottom: 28,
         }}
       >
+        {/* Navigation & Action Row */}
         <View className="flex-row items-center justify-between mb-6">
           <Pressable
             onPress={handleBack}
@@ -90,60 +86,94 @@ export default function CourseScreen() {
           </Pressable>
 
           <View className="flex-row items-center gap-2">
-            <Pressable
-              onPress={handleSave}
-              accessibilityRole="button"
-              accessibilityLabel={isSaved ? 'Saved to bookmarks' : 'Save course'}
-              className={`w-10 h-10 rounded-full items-center justify-center active:bg-surface-variant ${
-                isSaved ? 'bg-secondary/15' : 'bg-surface-container'
-              }`}
-            >
-              <Text
-                className={`text-xl ${
-                  isSaved ? 'text-secondary' : 'text-on-surface'
-                }`}
-              >
-                {isSaved ? '★' : '☆'}
-              </Text>
-            </Pressable>
+            <View className="w-10 h-10 rounded-full bg-surface-container items-center justify-center">
+              <Text className="text-xl text-on-surface">☆</Text>
+            </View>
 
-            <Pressable
-              onPress={handleShare}
-              accessibilityRole="button"
-              accessibilityLabel="Share syllabus"
-              className="w-10 h-10 rounded-full bg-surface-container items-center justify-center active:bg-surface-variant"
-            >
+            <View className="w-10 h-10 rounded-full bg-surface-container items-center justify-center">
               <Text className="text-xl font-bold text-on-surface">🔗</Text>
-            </Pressable>
+            </View>
           </View>
         </View>
 
-        {/* Hero Video Preview Container */}
+        {/* Video Container */}
         <View
-          className="relative w-full rounded-2xl overflow-hidden bg-[#ece8e0] mb-6 shadow-sm"
+          className="relative w-full rounded-2xl overflow-hidden bg-[#ece8e0] mb-6 shadow-sm border border-[#eeeae2] items-center justify-center"
           style={{ aspectRatio: 16 / 9 }}
         >
-          
+      
+          <View className="absolute inset-0 bg-black/25" />
+
+          {/* Centered Play Button */}
+          <View className="w-14 h-14 rounded-full bg-white/95 items-center justify-center shadow-lg">
+            <Text className="text-2xl text-[#1c1c17] ml-0.5">▶</Text>
+          </View>
         </View>
 
-        <View className="p-6 rounded-2xl bg-surface-container-lowest border border-outline-variant mb-6 shadow-sheet">
-          <Text className="text-lg font-bold text-on-surface mb-2">
-            Status Aktivitas
-          </Text>
-          <Text className="text-sm text-slate leading-relaxed">
-            Semua sistem berjalan dengan normal. Anda berhasil masuk menggunakan akun demo.
-          </Text>
-        </View>
+        {/* Course Syllabus / Modules */}
+        <View className="mb-8">
+          <View className="mb-3.5">
+            <Text className="text-base font-bold text-[#1c1c17]">
+              Course Syllabus
+            </Text>
+            <Text className="text-xs text-[#706e68]">
+              4 core units · 2 practical diagnostics
+            </Text>
+          </View>
 
-        <View className="flex-row gap-4 mb-8">
-          <View className="flex-1 p-4 rounded-xl bg-surface-container-low border border-outline-variant">
-            <Text className="text-xs text-slate mb-1">Total Sesi</Text>
-            <Text className="text-xl font-bold text-on-surface">24</Text>
-          </View>
-          <View className="flex-1 p-4 rounded-xl bg-surface-container-low border border-outline-variant">
-            <Text className="text-xs text-slate mb-1">Status Keamanan</Text>
-            <Text className="text-xl font-bold text-secondary">Aman</Text>
-          </View>
+          {/* Module Cards */}
+          {syllabusModules.map((module) => (
+            <View
+              key={module.id}
+              className="bg-white rounded-2xl border border-[#eeeae2] overflow-hidden mb-3.5 shadow-sm"
+            >
+              {/* Module Header */}
+              <View className="p-4 flex-row items-center gap-3">
+                <View className="w-7 h-7 rounded-lg bg-[#f1ede6] items-center justify-center">
+                  <Text className="text-xs font-bold text-[#1c1c17]">
+                    {module.id}
+                  </Text>
+                </View>
+                <View className="flex-1">
+                  <View className="flex-row items-center gap-2 flex-wrap">
+                    <Text className="text-sm font-bold text-[#1c1c17]">
+                      {module.title}
+                    </Text>
+                    {module.tag && (
+                      <View className="px-2 py-0.5 rounded-full bg-[#396660]/10">
+                        <Text className="text-[10px] font-semibold text-[#396660]">
+                          {module.tag}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                  <Text className="text-xs text-[#706e68] mt-0.5">
+                    {module.subtitle}
+                  </Text>
+                </View>
+              </View>
+
+              {/* Lessons List (always expanded) */}
+              <View className="px-4 pb-4 gap-2">
+                {module.lessons.map((lesson) => (
+                  <View
+                    key={lesson.id}
+                    className="flex-row items-center justify-between py-2.5 px-3 rounded-xl bg-[#f7f3eb]"
+                  >
+                    <Text
+                      className="text-xs font-semibold text-[#1c1c17] flex-1 mr-2"
+                      numberOfLines={1}
+                    >
+                      {lesson.title}
+                    </Text>
+                    <Text className="text-[11px] text-[#706e68]">
+                      {lesson.duration}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          ))}
         </View>
 
         <Text className="mt-auto pt-10 text-center text-[12px] text-slate">
